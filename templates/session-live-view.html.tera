@@ -1,0 +1,116 @@
+{% extends "base" %}
+
+{% block styles_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/mermaid@9.3.0/dist/mermaid.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="side-panel">
+    <h1><a href="{{ view_url }}">Live viewer</a></h1>
+    <p>
+    Session {{ session_id }}
+    </p>
+    <div>
+        <h2>Options</h2>
+        <table>
+            <tr>
+                <td><label for="auto_update">Auto update diagram</label></td>
+                <td><input type="checkbox" id="auto_update" name="auto_update" checked></td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <h2>Add link</h2>
+        <table>
+            <tr>
+                <td>
+                    <label for="add_link_from">From</label>
+                </td>
+                <td>
+                    <input type="text" id="add_link_from" name="add_link_from" placeholder="Required identifier">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="add_link_to">To</label>
+                </td>
+                <td>
+                    <input type="text" id="add_link_to" name="add_link_to" placeholder="Required identifier">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="add_link_label">Label</label>
+                </td>
+                <td>
+                    <input type="text" id="add_link_label" name="add_link_label" placeholder="Can be empty">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <input class="center expand" type="button" id="add_link_submit" label="add_link_submit" value="Add">
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <h2>API</h2>
+{% if session_api_url %}
+        <div>
+            <div class="button">
+                <a href="{{ session_api_url }}">API Session URL</a>
+            </div>
+        </div>
+{% endif %}
+    </div>
+    <div>
+        <h2>Export</h2>
+        <div>
+{% if svg_url %}
+            <div class="button">
+                <a href="{{ svg_url }}">SVG</a>
+            </div>
+{% endif %}
+{% if mermaid_url %}
+            <div class="button">
+                <a href="{{ mermaid_url }}">Mermaid</a>
+            </div>
+{% endif %}
+        </div>
+    </div>
+</div>
+
+<div id="content">
+    <div class="right overflow-vertical">
+        <div id="svg_view" width="100%">
+            <svg viewBox="0 0 1 1" id="svg-doc" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+    </div>
+</div>
+<script>
+    function add_link_submit(e) {
+        fetch("{{ add_link_api_url }}", { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    from: document.getElementById("add_link_from").value,
+                    to: document.getElementById("add_link_to").value,
+                    label: document.getElementById("add_link_label").value
+                })
+            });
+    }
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        document.getElementById("content").height = window.innerHeight;
+        check_events("{{ events_url }}", document.getElementById("svg_view"));
+        document.getElementById("add_link_submit").onclick = add_link_submit;
+    });
+</script>
+{% endblock %}
+<!--
+    vim: ft=html expandtab tabstop=2
+-->

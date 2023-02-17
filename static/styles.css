@@ -1,0 +1,34 @@
+.column {
+  float: left;
+}
+
+.left {
+  width: 20%;
+}
+
+.right {
+  width: 80%;
+}
+
+.label {
+    font-weight: bold;
+}
+
+.overflow-vertical {
+    overflow-y: scroll;
+}
+
+.side-panel {
+    position: fixed;
+    bottom: 10em;
+    background: white;
+    padding: 1em;
+    border-width: 0.1em;
+    border-radius: 1em;
+    border-style: solid;
+}
+
+#content {
+    float: right;
+    width: 80%;
+}

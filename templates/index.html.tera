@@ -1,0 +1,10 @@
+{% extends "base" %}
+{% block content %}
+<form action="{{ new_session_url }}" method="POST">
+    <input type="submit" value="Start a new session">
+</form>
+<a href="{{ example_url }}">Get a new session with an example</a>
+{% endblock %}
+<!--
+    vim: ft=html expandtab tabstop=2
+-->
