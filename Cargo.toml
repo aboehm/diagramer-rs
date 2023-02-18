@@ -1,9 +1,13 @@
 [package]
 name = "diagramer"
+description = "A sequence diagram generator service"
 version = "0.1.0"
 edition = "2021"
-rust-version = "1.66"
-#autoexamples = false
+
+authors = ["Alexander Böhm <alexander.boehm@malbolge.net>"]
+license = "MIT"
+keywords = ["diagram", "webservice"]
+categories = ["graphics", "visualization"]
 
 [dependencies]
 chrono = { version = "0.4.23", features = ["serde"] }
