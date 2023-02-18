@@ -8,6 +8,8 @@ authors = ["Alexander Böhm <alexander.boehm@malbolge.net>"]
 license = "MIT"
 keywords = ["diagram", "webservice"]
 categories = ["graphics", "visualization"]
+homepage = "https://github.com/aboehm/diagramer-rs"
+repository = "https://github.com/aboehm/diagramer-rs.git"
 
 [dependencies]
 chrono = { version = "0.4.23", features = ["serde"] }
