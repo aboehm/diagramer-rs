@@ -95,8 +95,8 @@ impl SessionInner {
             id,
             links: vec![],
             parties: HashSet::new(),
-            parties_highest_id: 1,
-            links_highest_id: 1,
+            parties_highest_id: 0,
+            links_highest_id: 0,
         }
     }
 
@@ -226,9 +226,13 @@ mod tests {
         let session = session.read().unwrap();
         let id = session.links[1].id;
         assert_eq!(2, id);
-        assert_eq!(2, session.links_above_id(2).len());
-        assert_eq!(3, session.links_above_id(2)[0].id);
-        assert_eq!(4, session.links_above_id(2)[1].id);
-        assert!(session.links_above_id(4).is_empty());
+        let (highest_id, links_above) = session.links_above_id(2);
+        assert_eq!(4, highest_id);
+        assert_eq!(2, links_above.len());
+        assert_eq!(3, links_above[0].id);
+        assert_eq!(4, links_above[1].id);
+        let (highest_id, links_above) = session.links_above_id(4);
+        assert_eq!(4, highest_id);
+        assert!(links_above.is_empty());
     }
 }

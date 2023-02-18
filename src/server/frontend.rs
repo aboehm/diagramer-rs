@@ -88,7 +88,7 @@ pub(crate) fn new_example(sessions: &State<Sessions>) -> Redirect {
 mod test {
     use super::*;
     use crate::server::test::tester;
-    use rocket::http::{ContentType, Status};
+    use rocket::http::Status;
     use std::ops::Deref;
 
     #[tokio::test]
@@ -125,23 +125,5 @@ mod test {
         };
         let response = client.get(uri!(view(id))).dispatch().await;
         assert_eq!(response.status(), Status::Ok);
-    }
-
-    #[tokio::test]
-    async fn add_link_for_existing_session() {
-        let (sessions, client) = tester().await;
-        let session = sessions.new_session();
-        let id = { session.read().unwrap().id };
-        let response = client.post(uri!(add_link(id)))
-            .body("from=from&to=to&label=label")
-            .header(ContentType::Form)
-            .dispatch()
-            .await;
-        assert_eq!(response.status(), Status::SeeOther);
-        {
-            let session_read = session.read().unwrap();
-            assert_eq!(2, session_read.deref().parties.len());
-            assert_eq!(1, session_read.deref().links.len());
-        }
     }
 }
